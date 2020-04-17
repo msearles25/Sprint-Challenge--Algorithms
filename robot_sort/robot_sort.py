@@ -95,15 +95,44 @@ class SortingRobot:
     def sort(self):
         """
         Sort the robot's list.
+
+         * It can move left or right.
+         * It can pick up an item
+             * If it tries to pick up an item while already holding one, it will swap the items instead.
+         * It can compare the item it's holding to the item in front of it.
+         * It can switch a light on its head on or off.
+
+
+        You would need to check weather the robot can move left or right, 
+        if it can move right, then move right, if it can't then check if it can move left.
+
+        Check if the robot is currently holding something in it's hand, if it is then check if what the robot
+        is holding is bigger or smaller than the current item where the robot is at, if it's moving right then
+        it would need to be greater so if it is then swap it and move right. 
+
         """
-        # Fill this out
-        pass
+
+        while self.can_move_right():
+            if self.compare_item() == -1 or self.compare_item() is None:
+                self.swap_item()
+                self.move_right()
+            else:
+                self.move_right()
+        
+        while self.can_move_left():
+            if self.compare_item() == 1:
+                self.swap_item()
+                self.move_left()
+            else:
+                self.move_left()
+
+        if self._item is not None:
+            self.sort()
 
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
-
     l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
 
     robot = SortingRobot(l)
